@@ -15,7 +15,27 @@ class PontoTuristicoViewSet(ModelViewSet):
     Esse metodo sempre precisa retornar um iterable (lista de queryset)
     """
     def get_queryset(self):
-        return PontoTuristico.objects.filter(aprovado=True)
+
+        ########## QUERY STRING ##########
+        # Esses parametro sao passados pela URL
+        # .../pontosturisticos/?id=1&nome=carlos&descricao=teste
+        id = self.request.query_params.get('id', None)
+        nome = self.request.query_params.get('nome', None)
+        descricao = self.request.query_params.get('descricao', None)
+
+        # Lazy load, portanto nao impacta na performance
+        queryset = PontoTuristico.objects.all()
+
+        if id:
+            queryset = queryset.filter(pk=id)
+
+        if nome:
+            queryset = queryset.filter(nome__iexact=nome)
+
+        if descricao:
+            queryset = queryset.filter(descricao__iexact=descricao)
+
+        return queryset
 
     """
     Sobrescrita do metodo 'list', esse metodo eh chamado sempre que for usado o GET sem parametro, para trazer 'tudo'
