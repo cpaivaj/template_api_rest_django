@@ -24,6 +24,7 @@ from enderecos.api.viewsets import EnderecoViewSet
 from avaliacoes.api.viewsets import AvaliacaoViewSet
 from comentarios.api.viewsets import ComentarioViewSet
 from django.conf.urls import include
+from rest_framework.authtoken.views import obtain_auth_token
 
 router = routers.DefaultRouter()
 # base_name referencia a Model
@@ -35,5 +36,8 @@ router.register(r'comentarios', ComentarioViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include(router.urls))
+    path('', include(router.urls)),
+
+    # Para autenticar usando o token precisa mandar um post para esta url com os dados de login
+    path('api-token-auth/', obtain_auth_token),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
