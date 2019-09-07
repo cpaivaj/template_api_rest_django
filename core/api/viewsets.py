@@ -1,5 +1,6 @@
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from rest_framework.filters import SearchFilter
 from rest_framework.viewsets import ModelViewSet
 from core.models import PontoTuristico
 from .serializers import PontoTuristicoSerializer
@@ -7,6 +8,23 @@ from .serializers import PontoTuristicoSerializer
 # O modelViewSet ja tem o CRUD disponivel - AWESOME
 class PontoTuristicoViewSet(ModelViewSet):
     serializer_class = PontoTuristicoSerializer
+
+    # Faz a pesquisa como um 'contains' com base nos campos citados em search_fields
+    # .../pontosturisticos/?search=qualquer
+    filter_backends = (SearchFilter,)
+
+    # Alem dos parametros normais, tem como passar um parametro que esteja dentro de outra entidade, 
+    #  como por exemplo o linha1 que pertence ao endereco
+    search_fields = ('nome', 'descricao', 'endereco__linha1')
+
+    """
+     Dentro dos search_fields eu posso usar lookups do proprio filter
+     Exemplo: ^descricao ou =descricao ou @descricao ou $descricao
+      ^ - istartswith
+      = - iexact
+      @ - search
+      $ - iregex
+    """
 
     """
     Sobrescreve o metodo
