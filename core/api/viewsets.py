@@ -26,6 +26,12 @@ class PontoTuristicoViewSet(ModelViewSet):
       $ - iregex
     """
 
+    # Altera o identificador padrao do django
+    #  Na URL o padrao eh o id(pk) mas apos alterar esse parametro eh possivel colocar um valor
+    #  que nao seja o pk (pontosturisticos/carlos/) antes era (pontosturisticos/2/) por exemplo
+    # ESSE LOOKUP PRECISA SER UNIQUE NA MODEL
+    lookup_field = 'nome'
+
     """
     Sobrescreve o metodo
     Aqui dentro podem haver varios filtros
