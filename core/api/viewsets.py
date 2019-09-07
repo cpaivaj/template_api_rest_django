@@ -1,6 +1,8 @@
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.filters import SearchFilter
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from rest_framework.authentication import TokenAuthentication
 from rest_framework.viewsets import ModelViewSet
 from core.models import PontoTuristico
 from .serializers import PontoTuristicoSerializer
@@ -12,6 +14,11 @@ class PontoTuristicoViewSet(ModelViewSet):
     # Faz a pesquisa como um 'contains' com base nos campos citados em search_fields
     # .../pontosturisticos/?search=qualquer
     filter_backends = (SearchFilter,)
+
+    # Exige que o usuario esteja autenticado para ter acesso aos recursos da API
+    #  Alem de IsAuthenticated tem tambem IsAllowAny(permite todo mundo), IsAdminUser
+    permission_classes = (IsAuthenticated, )
+    authentication_classes = (TokenAuthentication, )
 
     # Alem dos parametros normais, tem como passar um parametro que esteja dentro de outra entidade, 
     #  como por exemplo o linha1 que pertence ao endereco
