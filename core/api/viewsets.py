@@ -1,7 +1,7 @@
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.filters import SearchFilter
-from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from rest_framework.permissions import IsAuthenticated, IsAdminUser, IsAuthenticatedOrReadOnly#, DjangoModelPermission
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.viewsets import ModelViewSet
 from core.models import PontoTuristico
@@ -16,7 +16,10 @@ class PontoTuristicoViewSet(ModelViewSet):
     filter_backends = (SearchFilter,)
 
     # Exige que o usuario esteja autenticado para ter acesso aos recursos da API
-    #  Alem de IsAuthenticated tem tambem IsAllowAny(permite todo mundo), IsAdminUser
+    #  Alem de IsAuthenticated tem tambem IsAllowAny(permite todo mundo), IsAdminUser, IsAuthenticatedOrReadOnly
+    #  DjangoModelPermission
+    #   IsAuthenticatedOrReadOnly libera todas as opcoes caso esteja autenticado, caso contrario, permite apenas leitura
+    #   DjangoModelPermission libera as permissoes de acordo com as permissoes do model/user
     permission_classes = (IsAuthenticated, )
     authentication_classes = (TokenAuthentication, )
 
