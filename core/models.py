@@ -12,6 +12,8 @@ class PontoTuristico(models.Model):
     comentarios = models.ManyToManyField(Comentario)
     avaliacoes = models.ManyToManyField(Avaliacao)
     endereco = models.ForeignKey(Endereco, on_delete=models.CASCADE, null=True, blank=True)
+    foto = models.ImageField(upload_to='imagens_pontos', null=True,
+                             blank=True)  # a pasta imagens_pontos eh criada automaticamente
 
     def __str__(self):
         return self.nome
