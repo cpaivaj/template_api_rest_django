@@ -17,3 +17,8 @@ class PontoTuristico(models.Model):
 
     def __str__(self):
         return self.nome
+
+    # Outra forma de usar um 'transient'
+    @property
+    def descricao_completa2(self):
+        return '%s - %s' % (self.nome, self.descricao)
