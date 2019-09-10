@@ -92,7 +92,7 @@ WSGI_APPLICATION = 'pontos_turisticos.wsgi.application'
 from dj_database_url import parse as dburl
 default_dburl = 'sqlite:///' + os.path.join(BASE_DIR, 'db.sqlite3')
 
-DATABASE = {
+DATABASES = {
     'default': config('DATABASE_URL', default=default_dburl, cast=dburl),
 }
 
