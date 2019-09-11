@@ -40,7 +40,7 @@ class PontoTuristicoViewSet(ModelViewSet):
     #  Na URL o padrao eh o id(pk) mas apos alterar esse parametro eh possivel colocar um valor
     #  que nao seja o pk (pontosturisticos/carlos/) antes era (pontosturisticos/2/) por exemplo
     # ESSE LOOKUP PRECISA SER UNIQUE NA MODEL
-    lookup_field = 'nome'
+    lookup_field = 'id'
 
     """
     Sobrescreve o metodo
@@ -129,3 +129,15 @@ class PontoTuristicoViewSet(ModelViewSet):
     # @action(methods=['get'], detail=False)
     # def busca_tudo(self, request):
     #    pass
+
+    @action(methods=['post'], detail=True)
+    def associa_atracoes(self, request, id):
+        atracoes = request.data['ids']
+
+        ponto = PontoTuristico.objects.get(id=id)
+
+        ponto.atracoes.set(atracoes)
+
+        ponto.save()
+
+        return HttpResponse('Ok')
