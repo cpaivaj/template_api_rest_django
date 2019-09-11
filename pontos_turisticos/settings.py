@@ -150,3 +150,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # Configurando ambiente para o Heroku
 #  1 - Instalar o cli se nao estiver instalado
 #  2 - Seguir o tutorial do curso 
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 100
+}
